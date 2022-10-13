@@ -5,16 +5,17 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <form action="login" method="post">
-    <div>
-      <label for="UserName"> User name</label>
-    <input type="text" id="user_acc" name="UserName" placeholder="enter username">
+    <div class="container">
+      <div class="login">
+        <form action="/login" method="post">
+          <h1>LOG IN</h1> 	
+          <input type="text" id="user_acc" placeholder="Your Email">
+          <br>
+          <input type="password" id="user_pwd" placeholder="Password">
+          <br>
+          <input type="submit" value="Login">
+        </form>
+      </div>
     </div>
-    <div>
-      <label for="Password"> User name</label>
-    <input type="text" id="user-acc" name="Password" placeholder="enter password">
-    </div>
-    <input type="submit" value="Login">
-    </form>
   </body>
 </html>
