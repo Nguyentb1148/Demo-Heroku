@@ -10,15 +10,11 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   res.render('login', { title: 'ATN SHOP',message:"Please  input username and password" });
 });
-/* GET login page. */
-router.post('/login', function(req, res, next) {
-  res.render('users', { title: 'ATN SHOP' });
-});
 /* post login */
 router.post('/login', async function(req, res, next) {
-  let username=rep.body.username;
-  let password=rep.body.password;
-  console.log(username+ " + "+password)
+  let username=req.body.username;
+  let password=req.body.password;
+  console.log(username+ " : "+password)
   let authenticated=await authen(username,password)
   console.log(authenticated)
   if(authenticated==true){
