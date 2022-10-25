@@ -3,7 +3,9 @@ var router = express.Router();
 var authen = require('../models/authenticator')
 var display_product = require('../models/TableDisplay')
 const gen_select_box = require('../models/select_box');
+var crud = require('../models/crud');
 const Console = require("console");
+const { CONNREFUSED } = require('dns');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'ATN SHOP' });
@@ -44,6 +46,9 @@ router.post('/select_box', async function(req, res, next) {
 });
 router.post('/crud', async function(req, res, next) {
   console.log(req.body);
+  let results=await crud(req.body);
+  let table =await display_product(req.body.shop_id);
+  res.render("users",{title:'Welcome to ATN SHOP', name:"Nguyen",table_string:table})
 });
 
 module.exports = router;
