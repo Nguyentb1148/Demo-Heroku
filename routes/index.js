@@ -1,54 +1,78 @@
 var express = require('express');
 var router = express.Router();
-var authen = require('../models/authenticator')
-var display_product = require('../models/TableDisplay')
-const gen_select_box = require('../models/select_box');
-var crud = require('../models/crud');
-const Console = require("console");
-const { CONNREFUSED } = require('dns');
+var authen = require('../models/authenticator');
+var pg_con = require('../models/pg_config');
+var display_products = require('../models/TableDisplay');
+var gen_box = require('../models/select_box');
+var session;
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('index', { title: 'ATN SHOP' });
 });
-// Process for Post request here
-router.post('/', function(req, res, next) {
-  res.render('login', { title: 'ATN SHOP', message: "Please input username and password" });
+
+router.post('/', function (req, res, next) {
+  res.render('login', { title: 'ATN SHOP', message: 'Please input username and password' });
 });
 
-// Process for login POST request
-router.post('/login', async function(req, res, next) {
-  let username =req.body.username;
-  let password =req.body.password;
-  console.log(username + ":" + password)
-  let [authenticated, shop_id,role] = await authen(username, password)
-  if(authenticated === true &&role==='user'){
-    let table = await display_product(shop_id);
-    res.render('users', {title: 'welcome to user', name: username, table_string: table})
+// Process for POST Request
+router.post('/login', async function (req, res, next) {
+  let username = req.body.username;
+  let password = req.body.password;
+  session = req.session;
+  console.log(username+" : "+password);
+  let [authenticated, shopId, role] = await authen(username, password);
+  console.log(authenticated);
+  //for user
+  if (authenticated == true & role == 'user') {
+    session.user_id = username;
+    session.shopId = shopId;
+    session.role = role;
+    res.redirect('/users');
   }
-  else if(authenticated === true &&role==='director'){
-    let table = await display_product(shop_id);
-    let box_string=await gen_select_box();
-    res.render('admin', {title: 'admin', name: username,
-                          select_box: box_string,table_string:table})
+  // for admin
+  else if (authenticated == true & role == 'director') {
+    session.user_id = username;
+    session.shopId = shopId;
+    session.role = role;
+    res.redirect('/admin');
   }
-  else{
-    res.render('login', { title: 'ATN SHOP', message: 'wrong user password' });
+  else 
+  {
+    res.render('login', {title: 'ATN SHOP', message: 'Wrong username or password!'});
   }
 });
 
-router.post('/select_box', async function(req, res, next) {
-  let shop_id=req.body.shop;
-  // console.log(shop_id);
-  let table = await display_product(shop_id);
-  let box_string=await gen_select_box();
-  res.render('admin', {title: 'admin', name: "director",
-    select_box: box_string,table_string:table})
+
+
+
+router.post('/login/shops', function (req, reks, next) {
+  pg_con.connect(function (err) {
+    var query = `SELECT * FROM shops`;
+    pg_con.query(query, (err, data) => {
+      if (err)
+        console.log(err);
+      else {
+        console.log(data.rows);
+        console.log('successfully connected to shops!')
+        res.render('shops', {
+          title: 'shops',
+          message: 'Shops management',
+          shopData: data.rows
+        })
+      }
+    })
+  })
+
 });
-router.post('/crud', async function(req, res, next) {
-  console.log(req.body);
-  let results=await crud(req.body);
-  let table =await display_product(req.body.shop_id);
-  res.render("users",{title:'Welcome to ATN SHOP', name:"Nguyen",table_string:table})
-});
+
+
+// logout
+router.get('/logout', function (req, res, next) {
+  req.session.destroy();
+  res.render('index', { title: 'ATN SHOP' });
+})
+
+
+
 
 module.exports = router;

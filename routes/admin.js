@@ -1,14 +1,29 @@
 var express = require('express');
 var router = express.Router();
+var gen_box = require('../models/select_box');
+var display_products = require('../models/TableDisplay');
+var router = express.Router();
+var session;
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  // res.send('respond with a resource(admin)');
-  res.render('admin',{title: 'Admin page',name:'nguyen'});       
+/* GET home page. */
+router.get('/', async function (req, res, next) {
+    session = req.session;
+    let shopId = session.shopId;
+    let username = session.user_id;
+    let table = await display_products(shopId);
+    let box_string = await gen_box();
+    res.render('admin',{ title: 'ADMIN PAGE',name: username,select_box: box_string,table_string: table
+    });
 });
-router.post('/', function(req, res, next) {
-  // res.send('respond with a resource(admin)');
-  res.render('login',{title: 'login',name:'nguyen'});       
+
+// display for each shop
+router.post('/select_box', async function (req, res, next) {
+    let shop_id = req.body.shopId;
+    username = req.session.user_id;
+    let table = await display_products(shop_id);
+    let box_string = await gen_box();
+    res.render('admin',{title: 'welcome to ATN SHOP',name: username,select_box: box_string,table_string:table
+    });
 });
 
 module.exports = router;
