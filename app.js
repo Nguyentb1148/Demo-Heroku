@@ -7,15 +7,15 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
-var expressSession = require('express-session');
+var Session = require('express-session');
 
 var app = express();
 // set up session information
-app.use(expressSession({
+app.use(Session({
   secret: 'long_string_for_session_secret',
   resave: true,
   saveUninitialized: true,
-  cookie: { maxAge: 6000 },
+  cookie: { maxAge: 36000000 },
 }));
 
 
@@ -33,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'models')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
+
 
 
 // catch 404 and forward to error handler

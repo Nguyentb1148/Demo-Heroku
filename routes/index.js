@@ -25,14 +25,14 @@ router.post('/login', async function (req, res, next) {
   //for user
   if (authenticated == true & role == 'user') {
     session.user_id = username;
-    session.shopId = shopId;
+    session.shopId = shop_id;
     session.role = role;
     res.redirect('/users');
   }
   // for admin
   else if (authenticated == true & role == 'director') {
     session.user_id = username;
-    session.shopId = shopId;
+    session.shop_id = shopId;
     session.role = role;
     res.redirect('/admin');
   }
@@ -71,8 +71,6 @@ router.get('/logout', function (req, res, next) {
   req.session.destroy();
   res.render('index', { title: 'ATN SHOP' });
 })
-
-
 
 
 module.exports = router;

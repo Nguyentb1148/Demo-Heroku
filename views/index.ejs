@@ -4,11 +4,22 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+  <body class="img" background="https://static.vecteezy.com/system/resources/previews/001/410/750/non_2x/cyber-monday-happy-shopping-background-free-vector.jpg">
+    <style>
+      .id{
+        padding: 70px 0;
+        text-align: center;
+      }        
+    
+      h1{
+        color:burlywood;
+      }
+    </style>
+    <div class="id">
+    <h1>Welcome to <%= title %></h1>
     <form method="post">
       <input type="submit" value="Log in">
     </form>
+    </div>  
   </body>
 </html>

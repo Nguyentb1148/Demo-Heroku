@@ -5,7 +5,7 @@ async function crud(req_body){
     let price = req_body.price;
     let quantity = req_body.quantity;
     let shop_id = req_body.shop_id;
-    if (req_body.crud === 'update'){
+    if (req_body.crud === 'Update'){
         // call a upadte function in models
         var query = {
             text: `UPDATE products
@@ -13,7 +13,7 @@ async function crud(req_body){
                     WHERE id = $1;`,
             values: [id, product_name, price, quantity]
         }
-    } else if (req_body.crud === 'delete') {
+    } else if (req_body.crud === 'Delete') {
         var query = {
             text: `DELETE FROM products
                     WHERE id =$1;`,
