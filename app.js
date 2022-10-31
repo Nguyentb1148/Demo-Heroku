@@ -13,9 +13,9 @@ var app = express();
 // set up session information
 app.use(Session({
   secret: 'long_string_for_session_secret',
-  resave: true,
+  resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 36000000 },
+  cookie: { maxAge: 60000*60*24}
 }));
 
 
