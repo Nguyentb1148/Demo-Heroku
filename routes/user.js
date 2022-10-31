@@ -31,7 +31,7 @@ router.post('/crud', async (req, res, next) => {
   // refresh the page
   let table = await display_products(req.body.shop_id);
   res.render('users', {
-    title: 'ATN Admin',
+    title: 'ATN user',
     name: session.user_id,
     table_string: table
   });
