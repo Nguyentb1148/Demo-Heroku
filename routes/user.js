@@ -11,8 +11,8 @@ router.get('/', async function (req, res, next) {
   session = req.session;
   if (session.user_id) {
     let username = session.user_id;
-    let shopId = session.shopId;
-    let table = await display_products(shopId);
+    let shop_id = session.shop_id;
+    let table = await display_products(shop_id);
     res.render('users', {title: 'welcome to ATN-SHOP',name: username,table_string: table });
   }
   else 

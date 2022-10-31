@@ -20,19 +20,19 @@ router.post('/login', async function (req, res, next) {
   let password = req.body.password;
   session = req.session;
   console.log(username+" : "+password);
-  let [authenticated, shopId, role] = await authen(username, password);
+  let [authenticated, shop_id, role] = await authen(username, password);
   console.log(authenticated);
   //for user
   if (authenticated == true & role == 'user') {
     session.user_id = username;
-    session.shopId = shop_id;
+    session.shop_id = shop_id;
     session.role = role;
     res.redirect('/users');
   }
   // for admin
   else if (authenticated == true & role == 'director') {
     session.user_id = username;
-    session.shop_id = shopId;
+    session.shop_id = shop_id;
     session.role = role;
     res.redirect('/admin');
   }
@@ -69,8 +69,8 @@ router.post('/login/shops', function (req, reks, next) {
 // logout
 router.get('/logout', function (req, res, next) {
   req.session.destroy();
-  res.render('index', { title: 'ATN SHOP' });
+  res.render('login', { title: 'ATN SHOP' , message:"you log out pleae log in to continue"});
 })
 
 
-module.exports = router;
+module.exports = router; 

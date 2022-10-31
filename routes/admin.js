@@ -18,9 +18,10 @@ router.get('/', async function (req, res, next) {
 
 // display for each shop
 router.post('/select_box', async function (req, res, next) {
-    let shop_id = req.body.shopId;
-    let username = req.session.user_id;
+    let shop_id = req.body.shops;
+    username = req.session.user_id;
     let box_string = await gen_box();
+    console.log(username+" : "+shop_id);
     let table = await display_products(shop_id);
     res.render('admin',{title: 'welcome to ATN SHOP',name: username,select_box: box_string,table_string:table
     });

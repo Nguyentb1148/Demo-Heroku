@@ -1,7 +1,7 @@
 var pg_conn = require('./pg_config'); 
 async function display_product(shop_id){
     let query_product;
-    if(shop_id === 3) {
+    if(shop_id == 0) {
         query_product = 'SELECT * FROM products ORDER BY id;'
     }else{
         query_product = {

@@ -8,11 +8,11 @@ async function gen_select_box(){
             <tr>
               <form action ="/admin/select_box" method="post">
                   <label for="shop">Choose a shop:</label>
-                    <select name="shop" id="shop">
-                        <option name="allshop" value="3" selected>All shops</option>`
-                        let select_item = data.rows.length;
+                    <select name="shops" id="shops">
+                        <option value="0" selected>All shops</option>`
+                        let select_item = data.rowCount;
                         for (let i = 0; i < select_item; i++) {
-                            if (data.rows[i].roles != "director") {
+                            if (data.rows[i].roles !== "director") {
                                 box_string += `<option value=${data.rows[i].id}>${data.rows[i].name}</option>`;
                             }
                         }
